@@ -1,49 +1,61 @@
 import React from 'react';
-import { Card, CardHeader, CardBody, Button, Col, CardText, CardTitle } from 'reactstrap';
+import InnerItemList from './InnerItemList';
+import { Card, 
+        CardHeader, 
+        CardBody, 
+        Button, 
+        Col, 
+        Row, 
+        Input, 
+        ButtonGroup, 
+        Form
+} from 'reactstrap';
 
 class RenderDeskItem extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            items: null,
+            items: [],
+            todoItem: null
         }
-
+    
+        this.innerSubmitHandler = this.innerSubmitHandler.bind(this);
+        this.onChangeHandler = props.onChangeHandler.bind(this);
     }
+
+    innerSubmitHandler(e) {
+        e.preventDefault();
+
+        this.setState(state => ({
+            items: [...state.items, this.state.todoItem],
+            todoItem: null
+        }));
+    }
+
 
     render() {
         let {desk, onDeleteDesk} = this.props;
         return (
             <Card>
-                <CardHeader className="bg-secondary">
-                    {desk.name}  
+                <CardHeader>
+                    <Row>
+                        <Col md={5}>
+                            <b>{desk.name}</b>  
+                        </Col>
+                        <Col>
+                            <Form onSubmit={this.innerSubmitHandler}>
+                                <ButtonGroup className="w-100">
+                                    <Input name="todoname" onChange={(e) => this.onChangeHandler(e, "todoItem")} />
+                                    <Button>Add</Button>
+                                </ButtonGroup>
+                            </Form>
+                        </Col>
+                    </Row>
                 </CardHeader>
                 <CardBody>
-                    {/* <RenderItemList /> */}
-                    <div className="row justify-content-around mb-3">
-                    <Card className=" col-lg-5">
-                        <CardBody>
-                            <CardText>
-                            item#1
-                            </CardText>
-                        </CardBody>
-                    </Card>
-                    <Card className=" col-lg-5">
-                        <CardBody>
-                            <CardText>
-                            item#2
-                            </CardText>
-                        </CardBody>
-                    </Card>
-                    <Card className=" col-lg-5">
-                        <CardBody>
-                            <CardText>
-                                item#3
-                            </CardText>
-                        </CardBody>
-                    </Card>
-                    </div>
-                    <Col md={{size: 3, offset: 9}}>
+                    <InnerItemList items={this.state.items} />
+                    <Col xs={{size:12}}>
                         <Button 
                             color="danger"
                             onClick={()=>onDeleteDesk(desk.id)}>
@@ -54,19 +66,6 @@ class RenderDeskItem extends React.Component {
             </Card>
         )
     }
-}
-
-const RenderInner = (props) => {
-    return (
-            <div style={{
-                width: "100%",
-                border: "1px solid black",
-                height: "100%",
-                marginBottom: '20px'
-            }} {...props}>
-                <h3>Need to do</h3>
-            </div>
-    )
 }
 
 export default RenderDeskItem;

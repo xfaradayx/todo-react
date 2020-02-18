@@ -2,7 +2,7 @@ import React from 'react';
 import RenderDeskItem from './RenderDeskItem';
 import { Col } from 'reactstrap';
 
-const RenderDeskList = ({deskList, onDeleteDesk}) => {
+const RenderDeskList = ({deskList, onDeleteDesk, onChangeHandler}) => {
     let list;
 
     return deskList[0] == null ? (<div><h3> Empty :( </h3></div>) :
@@ -10,7 +10,7 @@ const RenderDeskList = ({deskList, onDeleteDesk}) => {
             list = deskList.map(desk => {
                 return (
                     <Col md={{size:8, offset:0}} key={desk.id} className="mb-5">
-                        <RenderDeskItem desk={desk} onDeleteDesk={onDeleteDesk} />
+                        <RenderDeskItem desk={desk} onDeleteDesk={onDeleteDesk} onChangeHandler={onChangeHandler}/>
                     </Col>
                 )
             })

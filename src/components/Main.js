@@ -11,20 +11,20 @@ class Main extends React.Component {
             deskItem: null,
             deskList: []
         }
-        this.onChangeHandler = this.onChangeHandler.bind(this);
+        // this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
         this.onDeleteDeskHandler = this.onDeleteDeskHandler.bind(this);
     } 
 
-    onChangeHandler(e) {
+    onChangeHandler(e, stateItem) {
         let item = {};
 
         item.name = e.target.value;
         item.id = `${(+new Date).toString(16)}`;
 
         this.setState({
-            deskItem: item
-        })
+            [stateItem]: item
+        });
     }
 
     onSubmitHandler(e) {
@@ -32,12 +32,14 @@ class Main extends React.Component {
 
         this.setState(state => ({
             deskList: [...state.deskList, this.state.deskItem],
-            deskItem: {name: ''}
-        }))
+            deskItem: null
+        }));
     }
 
     onDeleteDeskHandler(deskId) {
-        console.log(deskId);
+        this.setState(state => ({
+            deskList: [...state.deskList.filter(desk => desk.id !== deskId)]
+        }));
     }
 
     render() {
@@ -51,7 +53,7 @@ class Main extends React.Component {
                                     <Col>
                                         <Input 
                                             name="deskname" 
-                                            onChange={this.onChangeHandler} 
+                                            onChange={(e) => this.onChangeHandler(e, "deskItem")} 
                                             value={(this.state.deskItem && this.state.deskItem.name)  || ''} 
                                         />
                                     </Col>
@@ -69,7 +71,7 @@ class Main extends React.Component {
                     <div><h2>Your desks</h2></div>
                 </div>
                 <div className="row justify-content-center">
-                    <RenderDeskList deskList={this.state.deskList} onDeleteDesk={this.onDeleteDeskHandler} />
+                    <RenderDeskList deskList={this.state.deskList} onDeleteDesk={this.onDeleteDeskHandler} onChangeHandler={this.onChangeHandler}/>
                 </div>
 
            </div>
