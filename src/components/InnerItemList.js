@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, CardText } from 'reactstrap'
+import { Card, CardBody, CardText, CardTitle, Button } from 'reactstrap'
 
 const InnerItemList = ({items}) => {
     let list; 
@@ -7,13 +7,13 @@ const InnerItemList = ({items}) => {
     if (items[0] == null) {
         return (
             <div className="row justify-content-around mb-3">
-                Empty %(
+                What you need to do?
             </div>
         )
     } else {
         list = items.map(item => {
             return (
-                <Card className="col-lg-5" key={item.id}>
+                <Card className="col-lg-5 mb-2" inverse color="warning" key={item.id}>
                     <RenderItem item={item} />
                 </Card>
             )
@@ -21,7 +21,7 @@ const InnerItemList = ({items}) => {
     }
 
     return (
-        <div className="row justify-content-around mb-3">
+        <div className="row justify-content-around mb-3 align-items-center">
             {list}
         </div>
     )
@@ -29,7 +29,10 @@ const InnerItemList = ({items}) => {
 
 const RenderItem = ({item}) => {
     return (
-        <CardBody>
+        <CardBody color="warning">
+            <CardTitle>
+                <Button close />
+            </CardTitle>
             <CardText>
                 {item.name}
             </CardText>
