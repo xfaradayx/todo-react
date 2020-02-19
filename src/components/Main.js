@@ -8,7 +8,7 @@ class Main extends React.Component {
         super(props);
         
         this.state = {
-            deskItem: null,
+            deskItem: '',
             deskList: []
         }
         // this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -30,10 +30,12 @@ class Main extends React.Component {
     onSubmitHandler(e) {
         e.preventDefault();
 
-        this.setState(state => ({
-            deskList: [...state.deskList, this.state.deskItem],
-            deskItem: null
-        }));
+        if (this.state.deskItem) {
+            this.setState(state => ({
+                deskList: [...state.deskList, state.deskItem],
+                deskItem: '',
+            }))
+        }   
     }
 
     onDeleteDeskHandler(deskId) {
