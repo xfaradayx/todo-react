@@ -39,6 +39,7 @@ class Main extends React.Component {
     }
 
     onDeleteDeskHandler(deskId) {
+        console.log(deskId);
         this.setState(state => ({
             deskList: [...state.deskList.filter(desk => desk.id !== deskId)]
         }));
