@@ -14,6 +14,7 @@ class Main extends React.Component {
         // this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
         this.onDeleteDeskHandler = this.onDeleteDeskHandler.bind(this);
+        this.onInnerItemChangeHandler = this.onInnerItemChangeHandler.bind(this);
     } 
 
     onChangeHandler(e, stateItem) {
@@ -39,9 +40,21 @@ class Main extends React.Component {
     }
 
     onDeleteDeskHandler(deskId) {
-        console.log(deskId);
+
         this.setState(state => ({
             deskList: [...state.deskList.filter(desk => desk.id !== deskId)]
+        }));
+    }
+
+    onInnerItemChangeHandler(e, deskId) {
+        e.preventDefault();
+
+        let filteredDesk = this.state.deskList.filter(desk => desk.id === deskId)[0];
+        let filteredList = this.state.deskList.filter(desk => desk.id !== deskId);
+        let itemValue = e.target.value;
+
+        this.setState(state => ({
+            deskList: [...filteredList, {...filteredDesk, innerItem: itemValue}].sort((a,b) => a.id > b.id ? '1' : '-1')
         }));
     }
 
@@ -74,7 +87,12 @@ class Main extends React.Component {
                     <div><h2>Your desks</h2></div>
                 </div>
                 <div className="row justify-content-center">
-                    <RenderDeskList deskList={this.state.deskList} onDeleteDesk={this.onDeleteDeskHandler} onChangeHandler={this.onChangeHandler}/>
+                    <RenderDeskList 
+                        deskList={this.state.deskList} 
+                        onDeleteDesk={this.onDeleteDeskHandler} 
+                        onChangeHandler={this.onChangeHandler}
+                        onInnerChange={this.onInnerItemChangeHandler}
+                    />
                 </div>
 
            </div>
