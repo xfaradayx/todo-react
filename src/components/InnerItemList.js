@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, CardText, CardTitle, Button } from 'reactstrap'
 
-const InnerItemList = ({items, onItemDelete}) => {
+const InnerItemList = ({items, onInnerDelete}) => {
     let list; 
 
     if (items[0] == null) {
@@ -13,8 +13,8 @@ const InnerItemList = ({items, onItemDelete}) => {
     } else {
         list = items.map(item => {
                 return (
-                    <Card className="col-lg-5 mb-2" key={item.id} onClick={() => onItemDelete(item.id)}>
-                        <RenderItem item={item} />
+                    <Card className="col-lg-5 mb-2" key={item.id}>
+                        <RenderItem item={item} onInnerDelete={onInnerDelete}/>
                     </Card>
                 )
         }) 
@@ -27,11 +27,11 @@ const InnerItemList = ({items, onItemDelete}) => {
     )
 }
 
-const RenderItem = ({item}) => {
+const RenderItem = ({item, onInnerDelete}) => {
     return (
         <CardBody color="warning">
             <CardTitle>
-                <Button close color="danger"/>
+                <Button close color="danger" onClick={() => onInnerDelete(item.id)}/>
             </CardTitle>
             <CardText>
                 {item.value}

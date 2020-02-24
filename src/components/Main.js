@@ -17,6 +17,7 @@ class Main extends React.Component {
         this.onDeleteDeskHandler = this.onDeleteDeskHandler.bind(this);
         this.onInnerItemChangeHandler = this.onInnerItemChangeHandler.bind(this);
         this.onInnerSubmitHandler = this.onInnerSubmitHandler.bind(this);
+        this.onInnerDeleteHandler = this.onInnerDeleteHandler.bind(this);
     } 
 
     onChangeHandler(e, stateItem) {
@@ -61,16 +62,27 @@ class Main extends React.Component {
 
     onInnerSubmitHandler(e, deskId) {
         e.preventDefault();
- 
-        let value  = this.state.deskList.filter(desk => desk.id === deskId)[0].innerItem;
+
+        let filteredList = this.state.deskList.filter(desk => desk.id !== deskId);
+        let exactDesk  = this.state.deskList.filter(desk => desk.id === deskId)[0];
+        let innerValue = exactDesk.innerItem;
         let newItem = {
             id: `${(+new Date).toString(16)}`,
             deskId, 
-            value
+            value: innerValue
         };
 
         this.setState(state => ({
-            innerItems: [...state.innerItems, newItem]
+            innerItems: [...state.innerItems, newItem],
+            deskList: [...filteredList, {...exactDesk, innerItem: ''}].sort((a,b) => a.id > b.id ? '1' : '-1')
+        }));
+    }
+
+    onInnerDeleteHandler(itemId) {
+        
+        this.setState(state => ({
+            innerItems: state.innerItems.filter(item => item.id !== itemId),
+
         }));
     }
  
@@ -110,6 +122,7 @@ class Main extends React.Component {
                         onChangeHandler={this.onChangeHandler}
                         onInnerChange={this.onInnerItemChangeHandler}
                         onInnerSubmit={this.onInnerSubmitHandler}
+                        onInnerDelete={this.onInnerDeleteHandler}
                     />
                 </div>
 

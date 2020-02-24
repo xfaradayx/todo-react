@@ -12,7 +12,7 @@ import { Card,
 } from 'reactstrap';
 
 const RenderDeskItem = props => {
-    let {desk, items, onDeleteDesk, onInnerChange, onInnerSubmit} = props;
+    let {desk, items, onDeleteDesk, onInnerChange, onInnerSubmit, onInnerDelete} = props;
     return (
         <Card>
             <CardHeader>
@@ -35,7 +35,7 @@ const RenderDeskItem = props => {
                 </Row>
             </CardHeader>
             <CardBody>
-                <InnerItemList items={items}/>
+                <InnerItemList items={items} onInnerDelete={onInnerDelete}/>
                 <Col xs={{size:12}}>
                     <Button 
                         color="danger"
