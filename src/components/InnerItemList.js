@@ -34,7 +34,7 @@ const RenderItem = ({item}) => {
                 <Button close color="danger"/>
             </CardTitle>
             <CardText>
-                {item.name}
+                {item.value}
             </CardText>
         </CardBody>
     )

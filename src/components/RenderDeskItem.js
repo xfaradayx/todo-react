@@ -12,7 +12,7 @@ import { Card,
 } from 'reactstrap';
 
 const RenderDeskItem = props => {
-    let {desk, onDeleteDesk, onInnerChange} = props;
+    let {desk, items, onDeleteDesk, onInnerChange, onInnerSubmit} = props;
     return (
         <Card>
             <CardHeader>
@@ -21,12 +21,12 @@ const RenderDeskItem = props => {
                         <b>{desk.name}</b>  
                     </Col>
                     <Col>
-                        <Form>
+                        <Form onSubmit={e => onInnerSubmit(e, desk.id)}>
                             <ButtonGroup className="w-100">
                                 <Input 
                                     name="todoname" 
                                     onChange={(e) => onInnerChange(e, desk.id)}
-                                     
+                                    value={desk.innerItem}
                                 />
                                 <Button>Add</Button>
                             </ButtonGroup>
@@ -35,7 +35,7 @@ const RenderDeskItem = props => {
                 </Row>
             </CardHeader>
             <CardBody>
-                {/* <InnerItemList items={this.state.items} onItemDelete={this.innerItemDeleteHandler}/> */}
+                <InnerItemList items={items}/>
                 <Col xs={{size:12}}>
                     <Button 
                         color="danger"
